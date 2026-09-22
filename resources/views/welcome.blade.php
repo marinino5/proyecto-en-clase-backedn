@@ -1,31 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
+@extends('layout.app')
 
-<head>
+@section('title', 'ECOVOLT | Micromovilidad eléctrica')
 
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <meta
-        name="description"
-        content="ECOVOLT - Micromovilidad eléctrica urbana en Bucaramanga.">
-
-    <title>
-        ECOVOLT | Micromovilidad eléctrica
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="{{ asset('styles.css') }}">
-
-</head>
-
-
-<body>
-
+@section('fullPage')
 
 <!-- =====================================================
      NAVBAR
@@ -1622,6 +1599,4 @@
 
 </script>
 
-
-</body>
-</html>
+@endsection

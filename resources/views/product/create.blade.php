@@ -1,84 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
+@extends('layout.app')
 
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <title>
-        Nuevo vehículo | ECOVOLT
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="{{ asset('styles.css') }}">
-
-</head>
+@section('title', 'Nuevo vehículo | ECOVOLT')
 
 
-<body>
-
-
-<!-- =====================================================
-     NAVBAR
-===================================================== -->
-
-<nav class="main-nav scrolled">
-
-
-    <div class="nav-inner">
-
-
-        <a
-            href="{{ url('/') }}"
-            class="brand">
-
-            <div class="brand-name">
-                ECO<span>VOLT</span>
-            </div>
-
-        </a>
-
-
-
-        <div class="nav-links">
-
-            <a
-                href="{{ url('/') }}"
-                class="nav-link">
-
-                Inicio
-
-            </a>
-
-
-            <a
-                href="{{ url('/product') }}"
-                class="nav-link">
-
-                Flota
-
-            </a>
-
-
-            <a
-                href="{{ url('/product/create') }}"
-                class="nav-link nav-pill">
-
-                Gestión
-
-            </a>
-
-        </div>
-
-    </div>
-
-</nav>
-
+@section('content')
 
 
 <!-- =====================================================
@@ -87,6 +12,10 @@
 
 <main class="create-page">
 
+
+    <!-- =================================================
+         HERO / CABECERA
+    ================================================== -->
 
     <section class="create-heading">
 
@@ -153,13 +82,19 @@
 
 
 
+    <!-- =================================================
+         CONTENIDO
+    ================================================== -->
+
     <section class="create-content">
 
 
         <div class="container create-layout">
 
 
-            <!-- FORM -->
+            <!-- =================================================
+                 FORMULARIO
+            ================================================== -->
 
             <div class="create-form-card">
 
@@ -338,7 +273,7 @@
 
 
 
-                        <!-- URL IMAGEN -->
+                        <!-- IMAGEN -->
 
                         <div class="form-group form-group-full">
 
@@ -359,10 +294,10 @@
 
                             <small>
 
-                                Este campo permanece porque forma
+                                Este campo se conserva porque forma
                                 parte de la estructura del ejercicio.
-                                Si está vacío, la vista previa usa
-                                imágenes ECOVOLT locales.
+                                Si permanece vacío, la vista previa
+                                utilizará imágenes locales de ECOVOLT.
 
                             </small>
 
@@ -415,6 +350,8 @@
 
 
 
+                    <!-- ACCIONES -->
+
                     <div class="create-form-actions">
 
 
@@ -447,7 +384,9 @@
 
 
 
-            <!-- PREVIEW -->
+            <!-- =================================================
+                 PREVIEW
+            ================================================== -->
 
             <aside class="create-preview">
 
@@ -572,113 +511,14 @@
 </main>
 
 
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer class="site-footer">
-
-
-    <div class="container">
-
-
-        <div class="footer-top">
-
-
-            <div>
-
-
-                <div class="footer-brand">
-
-                    ECO<span>VOLT</span>
-
-                </div>
-
-
-                <p class="footer-description">
-
-                    Gestión interna de la flota
-                    manteniendo una identidad coherente
-                    con la experiencia pública de ECOVOLT.
-
-                </p>
-
-            </div>
-
-
-
-            <div>
-
-
-                <div class="footer-label">
-
-                    Navegación
-
-                </div>
-
-
-                <div class="footer-links">
-
-                    <a href="{{ url('/') }}">
-                        Inicio
-                    </a>
-
-                    <a href="{{ url('/product') }}">
-                        Flota
-                    </a>
-
-                </div>
-
-            </div>
-
-
-
-            <div>
-
-
-                <div class="footer-label">
-
-                    Gestión
-
-                </div>
-
-
-                <div class="footer-links">
-
-                    <a href="{{ url('/product/create') }}">
-                        Nuevo vehículo
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <div class="footer-bottom">
-
-            <span>
-                © {{ date('Y') }} ECOVOLT
-            </span>
-
-            <span>
-                Fleet Management
-            </span>
-
-        </div>
-
-    </div>
-
-</footer>
-
+@endsection
 
 
 <!-- =====================================================
-     PREVIEW JS
+     JAVASCRIPT ESPECÍFICO DE CREATE
 ===================================================== -->
+
+@push('scripts')
 
 <script>
 
@@ -727,6 +567,12 @@
 
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | IMÁGENES LOCALES SEGÚN CATEGORÍA
+    |--------------------------------------------------------------------------
+    */
+
     const localImages = {
 
         'Patineta eléctrica':
@@ -742,6 +588,12 @@
 
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | NOMBRE
+    |--------------------------------------------------------------------------
+    */
+
     nameInput.addEventListener(
         'input',
         function () {
@@ -755,6 +607,12 @@
     );
 
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | PRECIO
+    |--------------------------------------------------------------------------
+    */
 
     priceInput.addEventListener(
         'input',
@@ -782,6 +640,12 @@
 
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | CATEGORÍA
+    |--------------------------------------------------------------------------
+    */
+
     categoryInput.addEventListener(
         'change',
         function () {
@@ -795,12 +659,6 @@
                 ||
                 'Movilidad eléctrica';
 
-
-            /*
-            |--------------------------------------------------------------
-            | SOLO CAMBIA A IMAGEN LOCAL SI NO HAY URL PERSONALIZADA
-            |--------------------------------------------------------------
-            */
 
             if (
                 !imageInput.value.trim()
@@ -817,6 +675,12 @@
     );
 
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | DESCRIPCIÓN
+    |--------------------------------------------------------------------------
+    */
 
     descriptionInput.addEventListener(
         'input',
@@ -837,6 +701,12 @@
     );
 
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | IMAGEN PERSONALIZADA
+    |--------------------------------------------------------------------------
+    */
 
     imageInput.addEventListener(
         'input',
@@ -877,6 +747,7 @@
     );
 
 
+
     document
         .getElementById(
             'vehicleForm'
@@ -892,6 +763,4 @@
 
 </script>
 
-
-</body>
-</html>
+@endpush

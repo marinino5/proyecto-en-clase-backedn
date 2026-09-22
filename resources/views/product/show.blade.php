@@ -1,26 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <title>
-        Detalle | ECOVOLT
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="{{ asset('styles.css') }}">
-
-</head>
-
-
-<body>
+@extends('layout.app')
 
 
 @php
@@ -44,10 +22,7 @@
         $item = [
 
             'idProduct' =>
-                request()
-                    ->route(
-                        'idProduct'
-                    )
+                request()->route('idProduct')
                 ??
                 1,
 
@@ -68,121 +43,98 @@
     }
 
 
-    $id =
+    $id = data_get(
+        $item,
+        'idProduct',
         data_get(
             $item,
-            'idProduct',
-            data_get(
-                $item,
-                'id',
-                1
-            )
-        );
+            'id',
+            1
+        )
+    );
 
 
-    $name =
-        data_get(
-            $item,
-            'name',
-            'Vehículo ECOVOLT'
-        );
+    $name = data_get(
+        $item,
+        'name',
+        'Vehículo ECOVOLT'
+    );
 
 
-    $precio =
-        data_get(
-            $item,
-            'precio',
-            0
-        );
+    $precio = data_get(
+        $item,
+        'precio',
+        0
+    );
 
 
-    $categoria =
-        data_get(
-            $item,
-            'categoria',
-            'Movilidad eléctrica'
-        );
+    $categoria = data_get(
+        $item,
+        'categoria',
+        'Movilidad eléctrica'
+    );
 
 
-    $descripcion =
-        data_get(
-            $item,
-            'descrip',
-            'Alternativa de movilidad eléctrica ECOVOLT.'
-        );
+    $descripcion = data_get(
+        $item,
+        'descrip',
+        'Alternativa de movilidad eléctrica ECOVOLT.'
+    );
 
 
-    $textoProducto =
-        strtolower(
-            $name
-            .
-            ' '
-            .
-            $categoria
-        );
+    $textoProducto = strtolower(
+        $name . ' ' . $categoria
+    );
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | IMAGEN Y CARACTERÍSTICAS SEGÚN EL TIPO
+    |--------------------------------------------------------------------------
+    */
 
     if (
-        str_contains(
-            $textoProducto,
-            'bike'
-        )
+        str_contains($textoProducto, 'connect')
         ||
-        str_contains(
-            $textoProducto,
-            'bici'
-        )
+        str_contains($textoProducto, 'conect')
     ) {
 
-        $imagen =
-            asset(
-                'images/detail-bike.png'
-            );
-
-
-        $tipoUso =
-            'Trayectos amplios';
-
-
-        $beneficio =
-            'Mayor comodidad';
-
-    } elseif (
-        str_contains(
-            $textoProducto,
-            'connect'
-        )
-        ||
-        str_contains(
-            $textoProducto,
-            'conect'
-        )
-    ) {
-
-        $imagen =
-            asset(
-                'images/flota-connect.png'
-            );
-
+        $imagen = asset(
+            'images/flota-connect.png'
+        );
 
         $tipoUso =
             'Última milla';
 
-
         $beneficio =
             'Sistema conectado';
 
+
+    } elseif (
+        str_contains($textoProducto, 'bike')
+        ||
+        str_contains($textoProducto, 'bici')
+    ) {
+
+        $imagen = asset(
+            'images/detail-bike.png'
+        );
+
+        $tipoUso =
+            'Trayectos amplios';
+
+        $beneficio =
+            'Mayor comodidad';
+
+
     } else {
 
-        $imagen =
-            asset(
-                'images/detail-scooter.png'
-            );
-
+        $imagen = asset(
+            'images/detail-scooter.png'
+        );
 
         $tipoUso =
             'Trayectos cortos';
-
 
         $beneficio =
             'Mayor agilidad';
@@ -192,62 +144,17 @@
 @endphp
 
 
-
-<!-- =====================================================
-     NAVBAR
-===================================================== -->
-
-<nav class="main-nav scrolled">
+@section('title', $name . ' | ECOVOLT')
 
 
-    <div class="nav-inner">
-
-
-        <a
-            href="{{ url('/') }}"
-            class="brand">
-
-            <div class="brand-name">
-                ECO<span>VOLT</span>
-            </div>
-
-        </a>
-
-
-
-        <div class="nav-links">
-
-            <a
-                href="{{ url('/') }}"
-                class="nav-link">
-
-                Inicio
-
-            </a>
-
-
-            <a
-                href="{{ url('/product') }}"
-                class="nav-link nav-pill">
-
-                Flota
-
-            </a>
-
-        </div>
-
-    </div>
-
-</nav>
-
+@section('content')
 
 
 <!-- =====================================================
-     DETAIL
+     DETALLE DEL VEHÍCULO
 ===================================================== -->
 
 <main class="detail-page">
-
 
     <div class="container">
 
@@ -261,12 +168,12 @@
         </a>
 
 
-
         <div class="detail-grid">
 
 
-            <div class="detail-image">
+            <!-- IMAGEN -->
 
+            <div class="detail-image">
 
                 <img
                     src="{{ $imagen }}"
@@ -275,11 +182,9 @@
 
                 <div class="detail-floating">
 
-
                     <strong>
                         ● Disponible
                     </strong>
-
 
                     <span>
                         ECOVOLT · Bucaramanga
@@ -290,9 +195,9 @@
             </div>
 
 
+            <!-- INFORMACIÓN -->
 
             <div>
-
 
                 <div class="detail-category">
 
@@ -314,18 +219,18 @@
 
                     Esta alternativa hace parte del ecosistema ECOVOLT
                     y está pensada para integrarse a recorridos urbanos
-                    donde la facilidad de acceso, la disponibilidad y
-                    la claridad de la experiencia son factores relevantes.
+                    donde la facilidad de acceso, la disponibilidad
+                    y la claridad de la experiencia son factores importantes.
 
                 </p>
 
 
+                <!-- PRECIO -->
 
                 <div class="detail-price-wrap">
 
 
                     <div>
-
 
                         <span class="price-label">
                             Tarifa
@@ -334,7 +239,7 @@
 
                         <div class="detail-price">
 
-                            ${{ number_format((float)$precio, 0, ',', '.') }}
+                            ${{ number_format((float) $precio, 0, ',', '.') }}
 
                             <small>
                                 COP
@@ -343,7 +248,6 @@
                         </div>
 
                     </div>
-
 
 
                     <div class="detail-id">
@@ -355,6 +259,7 @@
                 </div>
 
 
+                <!-- FEATURES -->
 
                 <div class="detail-features">
 
@@ -400,6 +305,7 @@
                 </div>
 
 
+                <!-- ACCIONES -->
 
                 <div class="detail-actions">
 
@@ -432,15 +338,13 @@
 </main>
 
 
-
 <!-- =====================================================
-     DIGITAL
+     ACCESO DIGITAL
 ===================================================== -->
 
 <section
     class="digital-section"
     id="acceso">
-
 
     <div class="container">
 
@@ -448,8 +352,9 @@
         <div class="digital-panel">
 
 
-            <div class="digital-image">
+            <!-- IMAGEN QR -->
 
+            <div class="digital-image">
 
                 <img
                     src="{{ asset('images/ecovolt-qr.png') }}"
@@ -458,6 +363,7 @@
             </div>
 
 
+            <!-- TEXTO -->
 
             <div class="digital-copy">
 
@@ -504,117 +410,4 @@
 </section>
 
 
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer class="site-footer">
-
-
-    <div class="container">
-
-
-        <div class="footer-top">
-
-
-            <div>
-
-
-                <div class="footer-brand">
-
-                    ECO<span>VOLT</span>
-
-                </div>
-
-
-                <p class="footer-description">
-
-                    Plataforma de micromovilidad eléctrica
-                    diseñada para conectar vehículos,
-                    tecnología e infraestructura dentro
-                    del recorrido urbano.
-
-                </p>
-
-            </div>
-
-
-
-            <div>
-
-
-                <div class="footer-label">
-
-                    Explorar
-
-                </div>
-
-
-                <div class="footer-links">
-
-                    <a href="{{ url('/') }}">
-                        Inicio
-                    </a>
-
-                    <a href="{{ url('/product') }}">
-                        Flota
-                    </a>
-
-                    <a href="{{ url('/#como-funciona') }}">
-                        Cómo funciona
-                    </a>
-
-                </div>
-
-            </div>
-
-
-
-            <div>
-
-
-                <div class="footer-label">
-
-                    ECOVOLT
-
-                </div>
-
-
-                <div class="footer-links">
-
-                    <a href="{{ url('/#experiencia') }}">
-                        Experiencia
-                    </a>
-
-                    <a href="{{ url('/#impacto') }}">
-                        Tecnología
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <div class="footer-bottom">
-
-            <span>
-                © {{ date('Y') }} ECOVOLT · Bucaramanga
-            </span>
-
-            <span>
-                Electric Urban Mobility
-            </span>
-
-        </div>
-
-    </div>
-
-</footer>
-
-
-</body>
-</html>
+@endsection

@@ -1,31 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
+@extends('layout.app')
 
-<head>
-    <meta charset="UTF-8">
+@section('title', 'Flota | ECOVOLT')
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <title>Flota | ECOVOLT</title>
-
-    <link
-        rel="stylesheet"
-        href="{{ asset('styles.css') }}">
-</head>
-
-<body>
 
 @php
-
-    /*
-    |--------------------------------------------------------------------------
-    | CATÁLOGO
-    |--------------------------------------------------------------------------
-    | Si el controlador envía $products o $productos, se utilizan esos datos.
-    | Si no hay productos, se muestran los tres vehículos de ejemplo ECOVOLT.
-    */
 
     $catalogo = collect($products ?? $productos ?? []);
 
@@ -60,58 +38,7 @@
 @endphp
 
 
-<!-- =====================================================
-     NAVBAR
-===================================================== -->
-
-<nav class="main-nav scrolled">
-
-    <div class="nav-inner">
-
-        <a
-            href="{{ url('/') }}"
-            class="brand">
-
-            <div class="brand-name">
-                ECO<span>VOLT</span>
-            </div>
-
-        </a>
-
-
-        <div class="nav-links">
-
-            <a
-                href="{{ url('/') }}"
-                class="nav-link">
-
-                Inicio
-
-            </a>
-
-
-            <a
-                href="{{ url('/#como-funciona') }}"
-                class="nav-link">
-
-                Cómo funciona
-
-            </a>
-
-
-            <a
-                href="{{ url('/product') }}"
-                class="nav-link nav-pill">
-
-                Flota
-
-            </a>
-
-        </div>
-
-    </div>
-
-</nav>
+@section('content')
 
 
 <!-- =====================================================
@@ -236,12 +163,6 @@
                     );
 
 
-                    /*
-                    |--------------------------------------------------------------------------
-                    | IMAGEN SEGÚN TIPO DE VEHÍCULO
-                    |--------------------------------------------------------------------------
-                    */
-
                     if (
                         str_contains($textoProducto, 'connect')
                         ||
@@ -275,7 +196,6 @@
 
                 <article class="product-card">
 
-                    <!-- IMAGEN -->
 
                     <div class="product-image">
 
@@ -289,8 +209,6 @@
 
                     </div>
 
-
-                    <!-- INFORMACIÓN -->
 
                     <div class="product-content">
 
@@ -345,13 +263,19 @@
                     </div>
 
                 </article>
-@endforeach
+
+            @endforeach
+
         </div>
 
     </div>
 
 </main>
 
+
+<!-- =====================================================
+     CTA
+===================================================== -->
 
 <section class="cta-wrap">
 
@@ -394,100 +318,4 @@
 </section>
 
 
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer class="site-footer">
-
-    <div class="container">
-
-        <div class="footer-top">
-
-            <div>
-
-                <div class="footer-brand">
-                    ECO<span>VOLT</span>
-                </div>
-
-                <p class="footer-description">
-
-                    Micromovilidad eléctrica pensada para
-                    conectar ciudad, vehículos y tecnología
-                    dentro de una misma experiencia.
-
-                </p>
-
-            </div>
-
-
-            <div>
-
-                <div class="footer-label">
-                    Navegación
-                </div>
-
-                <div class="footer-links">
-
-                    <a href="{{ url('/') }}">
-                        Inicio
-                    </a>
-
-                    <a href="{{ url('/#como-funciona') }}">
-                        Cómo funciona
-                    </a>
-
-                    <a href="{{ url('/product') }}">
-                        Flota
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <div>
-
-                <div class="footer-label">
-                    ECOVOLT
-                </div>
-
-                <div class="footer-links">
-
-                    <a href="{{ url('/#experiencia') }}">
-                        Experiencia
-                    </a>
-
-                    <a href="{{ url('/#impacto') }}">
-                        Tecnología
-                    </a>
-
-                    <a href="{{ url('/product/create') }}">
-                        Gestión
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="footer-bottom">
-
-            <span>
-                © {{ date('Y') }} ECOVOLT · Bucaramanga
-            </span>
-
-            <span>
-                Electric Urban Mobility
-            </span>
-
-        </div>
-
-    </div>
-
-</footer>
-
-</body>
-</html>
+@endsection
