@@ -7,14 +7,16 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     public function index(){
-        return "Show Products";
+        return view('product.index');
     }
 
     public function create(){
-        return "Form to create Product";
+        //id //name //precio //descrip //categoria //urlimagen
+        return view('product.create');
     }
 
     public function show($idProduct){
-        return "detail of a product: $idProduct";
+        //id //name //precio //descrip //categoria //urlimagen
+        return view('product.show');
     }
 }
