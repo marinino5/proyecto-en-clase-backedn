@@ -38,25 +38,22 @@ class ProductController extends Controller
             ->with('success', 'Producto creado correctamente.');
     }
 
-    public function show(string $idProduct)
+    public function show(Product $product)
     {
-        $product = Product::with('category')->findOrFail($idProduct);
+        $product->load('category');
 
         return view('product.show', compact('product'));
     }
 
-    public function edit(string $idProduct)
+    public function edit(Product $product)
     {
-        $product = Product::findOrFail($idProduct);
         $categories = Category::all();
 
         return view('product.edit', compact('product', 'categories'));
     }
 
-    public function update(ProductRequest $request, string $idProduct)
+    public function update(ProductRequest $request, Product $product)
     {
-        $product = Product::findOrFail($idProduct);
-
         $product->update($request->validated());
 
         return redirect()
@@ -64,10 +61,8 @@ class ProductController extends Controller
             ->with('success', 'Producto actualizado correctamente.');
     }
 
-    public function destroy(string $idProduct)
+    public function destroy(Product $product)
     {
-        $product = Product::findOrFail($idProduct);
-
         $product->delete();
 
         return redirect()
