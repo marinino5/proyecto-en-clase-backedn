@@ -1,20 +1,10 @@
 @extends('layout.app')
 
-@section('title', 'Nuevo vehículo | ECOVOLT')
+@section('title', 'Editar vehículo | ECOVOLT')
 
 @section('content')
 
-
-<!-- =====================================================
-     CREATE PAGE
-===================================================== -->
-
 <main class="create-page">
-
-
-    <!-- =================================================
-         HERO / CABECERA
-    ================================================== -->
 
     <section class="create-heading">
 
@@ -26,41 +16,30 @@
                     Gestión interna
                 </div>
 
-
                 <h1 class="create-title">
-
-                    NUEVO
-
+                    EDITAR
                     <br>
-
                     VEHÍCULO
-
                     <span>
                         ECOVOLT.
                     </span>
-
                 </h1>
 
             </div>
 
-
             <div class="create-heading-copy">
 
                 <p>
-
-                    Registra una nueva alternativa dentro
-                    de la flota y organiza su información
-                    principal para mantener un catálogo
-                    claro y coherente.
-
+                    Actualiza la información del vehículo
+                    seleccionado y mantén los datos de la flota
+                    organizados y consistentes.
                 </p>
-
 
                 <div class="create-status">
 
                     <span class="create-status-dot"></span>
 
-                    Panel de gestión de flota
+                    Edición de vehículo
 
                 </div>
 
@@ -71,29 +50,18 @@
     </section>
 
 
-
-    <!-- =================================================
-         CONTENIDO
-    ================================================== -->
-
     <section class="create-content">
 
         <div class="container create-layout">
 
-
-            <!-- =================================================
-                 FORMULARIO
-            ================================================== -->
-
             <div class="create-form-card">
-
 
                 <div class="create-form-header">
 
                     <div>
 
                         <span class="create-step">
-                            01 · Información principal
+                            01 · Actualización de información
                         </span>
 
                         <h2>
@@ -102,7 +70,6 @@
 
                     </div>
 
-
                     <span class="create-index">
                         ECOVOLT / ADMIN
                     </span>
@@ -110,19 +77,16 @@
                 </div>
 
 
-
                 <form
                     id="vehicleForm"
-                    action="{{ route('products.store') }}"
+                    action="{{ route('products.update', $product) }}"
                     method="POST">
 
                     @csrf
+                    @method('PUT')
 
 
                     <div class="form-grid">
-
-
-                        <!-- NOMBRE -->
 
                         <div class="form-group form-group-full">
 
@@ -130,37 +94,27 @@
                                 Nombre del vehículo
                             </label>
 
-
                             <input
                                 type="text"
                                 id="name"
                                 name="name"
-                                value="{{ old('name') }}"
-                                placeholder="Ej. ECOVOLT Urban"
-                                required
-                            >
-
+                                value="{{ old('name', $product->name) }}"
+                                placeholder="Ej. Urban Glide"
+                                required>
 
                             @error('name')
-
                                 <small class="form-error">
                                     {{ $message }}
                                 </small>
-
                             @else
-
                                 <small>
                                     Utiliza un nombre corto
                                     y fácil de identificar.
                                 </small>
-
                             @enderror
 
                         </div>
 
-
-
-                        <!-- PRECIO -->
 
                         <div class="form-group">
 
@@ -168,13 +122,11 @@
                                 Tarifa
                             </label>
 
-
                             <div class="input-prefix">
 
                                 <span>
                                     $
                                 </span>
-
 
                                 <input
                                     type="number"
@@ -182,40 +134,30 @@
                                     name="price"
                                     min="0"
                                     step="0.01"
-                                    value="{{ old('price') }}"
+                                    value="{{ old('price', $product->price) }}"
                                     placeholder="8500"
-                                    required
-                                >
+                                    required>
 
                             </div>
 
-
                             @error('price')
-
                                 <small class="form-error">
                                     {{ $message }}
                                 </small>
-
                             @else
-
                                 <small>
                                     Valor de referencia en COP.
                                 </small>
-
                             @enderror
 
                         </div>
 
-
-
-                        <!-- CATEGORÍA -->
 
                         <div class="form-group">
 
                             <label for="category_id">
                                 Categoría
                             </label>
-
 
                             <select
                                 id="category_id"
@@ -226,69 +168,33 @@
                                     Selecciona una categoría
                                 </option>
 
-
                                 @foreach ($categories as $category)
 
                                     <option
                                         value="{{ $category->id }}"
-                                        {{ old('category_id') == $category->id ? 'selected' : '' }}
-                                    >
+                                        {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
+
                                         {{ $category->name }}
+
                                     </option>
 
                                 @endforeach
 
                             </select>
 
-
                             @error('category_id')
-
                                 <small class="form-error">
                                     {{ $message }}
                                 </small>
-
                             @else
-
                                 <small>
                                     Define la función principal
                                     del vehículo dentro de la flota.
                                 </small>
-
                             @enderror
 
                         </div>
 
-
-
-                        <!-- IMAGEN PARA VISTA PREVIA -->
-
-                        <div class="form-group form-group-full">
-
-                            <label for="urlimagen">
-                                URL de imagen
-                            </label>
-
-
-                            <input
-                                type="url"
-                                id="urlimagen"
-                                name="urlimagen"
-                                value="{{ old('urlimagen') }}"
-                                placeholder="https://ejemplo.com/vehiculo.jpg"
-                            >
-
-
-                            <small>
-                                Campo opcional utilizado para la
-                                vista previa. Si permanece vacío,
-                                se utilizarán imágenes locales ECOVOLT.
-                            </small>
-
-                        </div>
-
-
-
-                        <!-- DESCRIPCIÓN -->
 
                         <div class="form-group form-group-full">
 
@@ -296,35 +202,28 @@
                                 Descripción
                             </label>
 
-
                             <textarea
                                 id="description"
                                 name="description"
                                 rows="6"
                                 placeholder="Describe el tipo de recorrido, uso recomendado y principales características..."
-                                required>{{ old('description') }}</textarea>
-
+                                required>{{ old('description', $product->description) }}</textarea>
 
                             <div class="textarea-footer">
 
                                 @error('description')
-
                                     <small class="form-error">
                                         {{ $message }}
                                     </small>
-
                                 @else
-
                                     <small>
                                         Mantén la descripción clara
                                         y evita repetir categoría o tarifa.
                                     </small>
-
                                 @enderror
 
-
                                 <span id="characterCount">
-                                    {{ strlen(old('description', '')) }} caracteres
+                                    {{ strlen(old('description', $product->description)) }} caracteres
                                 </span>
 
                             </div>
@@ -334,11 +233,7 @@
                     </div>
 
 
-
-                    <!-- ACCIONES -->
-
                     <div class="create-form-actions">
-
 
                         <a
                             href="{{ route('products.index') }}"
@@ -348,12 +243,11 @@
 
                         </a>
 
-
                         <button
                             type="submit"
                             class="btn btn-primary">
 
-                            Crear vehículo
+                            Guardar cambios
 
                             <span>
                                 ↗
@@ -368,29 +262,19 @@
             </div>
 
 
-
-            <!-- =================================================
-                 PREVIEW
-            ================================================== -->
-
             <aside class="create-preview">
-
 
                 <div class="preview-label">
                     Vista previa
                 </div>
 
 
-
                 <div class="preview-image-wrap">
-
 
                     <img
                         id="previewImage"
                         src="{{ asset('images/ecovolt-estacion-lifestyle.png') }}"
-                        alt="Vista previa del vehículo"
-                    >
-
+                        alt="Vista previa del vehículo">
 
                     <div class="preview-availability">
 
@@ -403,39 +287,26 @@
                 </div>
 
 
-
                 <div class="preview-body">
-
 
                     <div
                         class="preview-category"
                         id="previewCategory">
 
-                        Movilidad eléctrica
+                        {{ $product->category?->name ?? 'Movilidad eléctrica' }}
 
                     </div>
 
-
                     <h3 id="previewName">
-
-                        {{ old('name', 'Nuevo vehículo') }}
-
+                        {{ $product->name }}
                     </h3>
 
-
                     <p id="previewDescription">
-
-                        {{ old(
-                            'description',
-                            'La descripción aparecerá aquí mientras completas la información del vehículo.'
-                        ) }}
-
+                        {{ $product->description }}
                     </p>
 
 
-
                     <div class="preview-price-row">
-
 
                         <div>
 
@@ -443,21 +314,14 @@
                                 Tarifa
                             </span>
 
-
                             <strong id="previewPrice">
-
-                                ${{ number_format((float) old('price', 0), 0, ',', '.') }} COP
-
+                                ${{ number_format($product->price, 0, ',', '.') }} COP
                             </strong>
 
                         </div>
 
-
-
                         <div class="preview-electric">
-
                             ⚡ Electric
-
                         </div>
 
                     </div>
@@ -465,21 +329,16 @@
                 </div>
 
 
-
                 <div class="preview-note">
-
 
                     <span>
                         02
                     </span>
 
-
                     <p>
-
-                        Esta vista te permite revisar
-                        la jerarquía visual antes de
-                        incorporar un vehículo al catálogo.
-
+                        Revisa los cambios antes de actualizar
+                        definitivamente la información del
+                        vehículo dentro del catálogo.
                     </p>
 
                 </div>
@@ -488,19 +347,12 @@
 
         </div>
 
-
     </section>
 
 </main>
 
-
 @endsection
 
-
-
-<!-- =====================================================
-     JAVASCRIPT ESPECÍFICO DE CREATE
-===================================================== -->
 
 @push('scripts')
 
@@ -509,60 +361,40 @@
     const nameInput =
         document.getElementById('name');
 
-
     const priceInput =
         document.getElementById('price');
-
 
     const categoryInput =
         document.getElementById('category_id');
 
-
-    const imageInput =
-        document.getElementById('urlimagen');
-
-
     const descriptionInput =
         document.getElementById('description');
-
 
     const previewName =
         document.getElementById('previewName');
 
-
     const previewPrice =
         document.getElementById('previewPrice');
-
 
     const previewCategory =
         document.getElementById('previewCategory');
 
-
     const previewImage =
         document.getElementById('previewImage');
 
-
     const previewDescription =
         document.getElementById('previewDescription');
-
 
     const characterCount =
         document.getElementById('characterCount');
 
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | IMÁGENES LOCALES SEGÚN CATEGORÍA
-    |--------------------------------------------------------------------------
-    */
-
     const localImages = {
 
-        'Patinetas eléctricas':
+        'Patineta eléctrica':
             "{{ asset('images/flota-scooter.png') }}",
 
-        'Bicicletas eléctricas':
+        'Bicicleta eléctrica':
             "{{ asset('images/flota-bike.png') }}",
 
         'Movilidad conectada':
@@ -571,43 +403,38 @@
     };
 
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | OBTENER NOMBRE DE LA CATEGORÍA
-    |--------------------------------------------------------------------------
-    */
-
-    function getSelectedCategoryName() {
+    function updateCategoryPreview() {
 
         const selectedOption =
             categoryInput.options[
                 categoryInput.selectedIndex
             ];
 
+        const categoryName =
+            selectedOption
+                ? selectedOption.text.trim()
+                : '';
 
-        if (
-            !selectedOption
-            ||
-            !categoryInput.value
-        ) {
+        previewCategory.textContent =
+            categoryName &&
+            categoryInput.value
+                ? categoryName
+                : 'Movilidad eléctrica';
 
-            return '';
+        if (localImages[categoryName]) {
+
+            previewImage.src =
+                localImages[categoryName];
+
+        } else {
+
+            previewImage.src =
+                "{{ asset('images/ecovolt-estacion-lifestyle.png') }}";
 
         }
 
-
-        return selectedOption.text.trim();
-
     }
 
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | NOMBRE
-    |--------------------------------------------------------------------------
-    */
 
     nameInput.addEventListener(
         'input',
@@ -622,13 +449,6 @@
     );
 
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | PRECIO
-    |--------------------------------------------------------------------------
-    */
-
     priceInput.addEventListener(
         'input',
         function () {
@@ -640,13 +460,10 @@
                     0
                 );
 
-
             previewPrice.textContent =
                 '$'
                 +
-                value.toLocaleString(
-                    'es-CO'
-                )
+                value.toLocaleString('es-CO')
                 +
                 ' COP';
 
@@ -654,48 +471,11 @@
     );
 
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | CATEGORÍA
-    |--------------------------------------------------------------------------
-    */
-
     categoryInput.addEventListener(
         'change',
-        function () {
-
-            const category =
-                getSelectedCategoryName();
-
-
-            previewCategory.textContent =
-                category
-                ||
-                'Movilidad eléctrica';
-
-
-            if (
-                !imageInput.value.trim()
-                &&
-                localImages[category]
-            ) {
-
-                previewImage.src =
-                    localImages[category];
-
-            }
-
-        }
+        updateCategoryPreview
     );
 
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | DESCRIPCIÓN
-    |--------------------------------------------------------------------------
-    */
 
     descriptionInput.addEventListener(
         'input',
@@ -704,8 +484,7 @@
             previewDescription.textContent =
                 this.value.trim()
                 ||
-                'La descripción aparecerá aquí mientras completas la información del vehículo.';
-
+                'La descripción aparecerá aquí.';
 
             characterCount.textContent =
                 this.value.length
@@ -716,83 +495,7 @@
     );
 
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | IMAGEN PERSONALIZADA
-    |--------------------------------------------------------------------------
-    */
-
-    imageInput.addEventListener(
-        'input',
-        function () {
-
-            const value =
-                this.value.trim();
-
-
-            if (value) {
-
-                previewImage.src =
-                    value;
-
-            } else {
-
-                const category =
-                    getSelectedCategoryName();
-
-
-                if (
-                    localImages[category]
-                ) {
-
-                    previewImage.src =
-                        localImages[category];
-
-                } else {
-
-                    previewImage.src =
-                        "{{ asset('images/ecovolt-estacion-lifestyle.png') }}";
-
-                }
-
-            }
-
-        }
-    );
-
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | INICIALIZACIÓN DE VISTA PREVIA
-    |--------------------------------------------------------------------------
-    */
-
-    if (categoryInput.value) {
-
-        const category =
-            getSelectedCategoryName();
-
-
-        previewCategory.textContent =
-            category
-            ||
-            'Movilidad eléctrica';
-
-
-        if (
-            !imageInput.value.trim()
-            &&
-            localImages[category]
-        ) {
-
-            previewImage.src =
-                localImages[category];
-
-        }
-
-    }
+    updateCategoryPreview();
 
 </script>
 

@@ -23,19 +23,28 @@ class ProductController extends Controller
     }
 
     public function create()
-    {
-        $categories = Category::all();
+{
+    $categories = Category::all();
 
-        return view('product.create', compact('categories'));
-    }
+    return view('product.create', compact('categories'));
+}
+
+public function manage()
+{
+    $products = Product::with('category')
+        ->latest()
+        ->paginate(10);
+
+    return view('product.manage', compact('products'));
+}
 
     public function store(ProductRequest $request)
     {
         Product::create($request->validated());
 
         return redirect()
-            ->route('products.index')
-            ->with('success', 'Producto creado correctamente.');
+    ->route('products.manage')
+    ->with('success', 'Producto creado correctamente.');
     }
 
     public function show(Product $product)
@@ -57,8 +66,8 @@ class ProductController extends Controller
         $product->update($request->validated());
 
         return redirect()
-            ->route('products.index')
-            ->with('success', 'Producto actualizado correctamente.');
+    ->route('products.manage')
+    ->with('success', 'Producto actualizado correctamente.');
     }
 
     public function destroy(Product $product)
@@ -66,7 +75,7 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()
-            ->route('products.index')
-            ->with('success', 'Producto eliminado correctamente.');
+    ->route('products.manage')
+    ->with('success', 'Producto eliminado correctamente.');
     }
 }

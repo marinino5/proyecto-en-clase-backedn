@@ -39,7 +39,7 @@
                         Cómo funciona
                     </a>
 
-                    <a href="{{ url('/product') }}">
+                    <a href="{{ route('products.index') }}">
                         Flota
                     </a>
 
@@ -63,7 +63,7 @@
                         Tecnología
                     </a>
 
-                    <a href="{{ url('/product') }}">
+                    <a href="{{ route('products.index') }}">
                         Vehículos
                     </a>
 

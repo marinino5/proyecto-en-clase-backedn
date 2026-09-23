@@ -36,7 +36,7 @@
 
             <a
                 class="nav-link nav-pill"
-                href="{{ url('/product') }}"
+                href="{{ route('products.index') }}"
             >
                 Explorar flota →
             </a>

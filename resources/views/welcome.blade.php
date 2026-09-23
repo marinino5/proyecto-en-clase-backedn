@@ -14,7 +14,6 @@
 
     <div class="nav-inner">
 
-
         <a
             href="{{ url('/') }}"
             class="brand">
@@ -66,7 +65,7 @@
 
             <a
                 class="nav-link nav-pill"
-                href="{{ url('/product') }}">
+                href="{{ route('products.index') }}">
 
                 Explorar flota →
 
@@ -138,7 +137,7 @@
 
 
                 <a
-                    href="{{ url('/product') }}"
+                    href="{{ route('products.index') }}"
                     class="btn btn-primary">
 
                     Explorar vehículos
@@ -1049,7 +1048,7 @@
 
 
         <a
-            href="{{ url('/product') }}"
+            href="{{ route('products.index') }}"
             class="btn btn-primary">
 
             Ver flota
@@ -1124,7 +1123,7 @@
                         Cómo funciona
                     </a>
 
-                    <a href="{{ url('/product') }}">
+                    <a href="{{ route('products.index') }}">
                         Flota
                     </a>
 
@@ -1152,7 +1151,7 @@
                         Tecnología
                     </a>
 
-                    <a href="{{ url('/product') }}">
+                    <a href="{{ route('products.index') }}">
                         Vehículos
                     </a>
 

@@ -1,85 +1,26 @@
 @extends('layout.app')
 
-
 @php
 
     /*
     |--------------------------------------------------------------------------
-    | PRODUCTO
+    | DATOS DEL PRODUCTO
     |--------------------------------------------------------------------------
     */
 
-    $item =
-        $product
-        ??
-        $producto
-        ??
-        null;
+    $id = $product->id;
 
+    $name = $product->name;
 
-    if (!$item) {
+    $precio = $product->price;
 
-        $item = [
+    $categoria =
+        $product->category?->name
+        ?? 'Movilidad eléctrica';
 
-            'idProduct' =>
-                request()->route('idProduct')
-                ??
-                1,
-
-            'name' =>
-                'Urban Glide',
-
-            'precio' =>
-                8500,
-
-            'categoria' =>
-                'Patineta eléctrica',
-
-            'descrip' =>
-                'Alternativa de micromovilidad eléctrica pensada para recorridos urbanos ágiles.'
-
-        ];
-
-    }
-
-
-    $id = data_get(
-        $item,
-        'idProduct',
-        data_get(
-            $item,
-            'id',
-            1
-        )
-    );
-
-
-    $name = data_get(
-        $item,
-        'name',
-        'Vehículo ECOVOLT'
-    );
-
-
-    $precio = data_get(
-        $item,
-        'precio',
-        0
-    );
-
-
-    $categoria = data_get(
-        $item,
-        'categoria',
-        'Movilidad eléctrica'
-    );
-
-
-    $descripcion = data_get(
-        $item,
-        'descrip',
-        'Alternativa de movilidad eléctrica ECOVOLT.'
-    );
+    $descripcion =
+        $product->description
+        ?? 'Alternativa de movilidad eléctrica ECOVOLT.';
 
 
     $textoProducto = strtolower(
@@ -109,7 +50,6 @@
         $beneficio =
             'Sistema conectado';
 
-
     } elseif (
         str_contains($textoProducto, 'bike')
         ||
@@ -125,7 +65,6 @@
 
         $beneficio =
             'Mayor comodidad';
-
 
     } else {
 
@@ -160,7 +99,7 @@
 
 
         <a
-            href="{{ url('/product') }}"
+            href="{{ route('products.index') }}"
             class="detail-back">
 
             ← Volver a la flota
@@ -177,7 +116,8 @@
 
                 <img
                     src="{{ $imagen }}"
-                    alt="{{ $name }}">
+                    alt="{{ $name }}"
+                >
 
 
                 <div class="detail-floating">
@@ -320,7 +260,7 @@
 
 
                     <a
-                        href="{{ url('/product') }}"
+                        href="{{ route('products.index') }}"
                         class="btn btn-outline-dark">
 
                         Explorar otras opciones
@@ -358,7 +298,8 @@
 
                 <img
                     src="{{ asset('images/ecovolt-qr.png') }}"
-                    alt="Activación digital ECOVOLT">
+                    alt="Activación digital ECOVOLT"
+                >
 
             </div>
 

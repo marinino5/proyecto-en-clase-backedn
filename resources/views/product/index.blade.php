@@ -88,11 +88,14 @@
 
         <div class="product-grid">
 
-            @forelse($listaDeProductos as $producto)
+            @forelse($products as $producto)
 
                 @php
 
-                    $textoProducto = strtolower($producto->name);
+                    $textoProducto = strtolower(
+                        $producto->name . ' ' .
+                        ($producto->category?->name ?? '')
+                    );
 
 
                     if (
@@ -109,8 +112,6 @@
                             'images/flota-bike.png'
                         );
 
-                        $categoria = 'Bicicleta eléctrica';
-
                     } elseif (
                         str_contains($textoProducto, 'connect')
                         ||
@@ -121,17 +122,18 @@
                             'images/flota-connect.png'
                         );
 
-                        $categoria = 'Movilidad conectada';
-
                     } else {
 
                         $imagen = asset(
                             'images/flota-scooter.png'
                         );
 
-                        $categoria = 'Patineta eléctrica';
-
                     }
+
+
+                    $categoria =
+                        $producto->category?->name
+                        ?? 'Movilidad eléctrica';
 
                 @endphp
 
@@ -143,7 +145,8 @@
 
                         <img
                             src="{{ $imagen }}"
-                            alt="{{ $producto->name }}">
+                            alt="{{ $producto->name }}"
+                        >
 
                         <div class="product-tag">
                             Disponible
@@ -193,12 +196,11 @@
 
 
                             <a
-                                href="{{ url('/product/' . $producto->id) }}"
-                                class="btn btn-dark">
-
-                                Ver vehículo →
-
-                            </a>
+    href="{{ route('products.show', $producto) }}"
+    class="btn btn-dark"
+>
+    Ver vehículo →
+</a>
 
                         </div>
 
@@ -229,6 +231,17 @@
             @endforelse
 
         </div>
+
+
+        @if ($products->hasPages())
+
+            <div class="catalogue-pagination">
+
+                {{ $products->links() }}
+
+            </div>
+
+        @endif
 
     </div>
 
@@ -269,7 +282,8 @@
 
         <a
             href="{{ url('/') }}"
-            class="btn btn-primary">
+            class="btn btn-primary"
+        >
 
             Conocer ECOVOLT →
 
