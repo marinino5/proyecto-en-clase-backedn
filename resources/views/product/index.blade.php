@@ -2,42 +2,6 @@
 
 @section('title', 'Flota | ECOVOLT')
 
-
-@php
-
-    $catalogo = collect($products ?? $productos ?? []);
-
-    if ($catalogo->isEmpty()) {
-
-        $catalogo = collect([
-            [
-                'idProduct' => 1,
-                'name' => 'Urban Glide',
-                'precio' => 8500,
-                'categoria' => 'Patineta eléctrica',
-                'descrip' => 'Una alternativa ágil para recorridos urbanos cortos, diseñada para desplazamientos rápidos y flexibles.'
-            ],
-            [
-                'idProduct' => 2,
-                'name' => 'City Motion',
-                'precio' => 12000,
-                'categoria' => 'Bicicleta eléctrica',
-                'descrip' => 'Una experiencia cómoda y estable para trayectos urbanos de mayor distancia.'
-            ],
-            [
-                'idProduct' => 3,
-                'name' => 'Volt Connect',
-                'precio' => 9800,
-                'categoria' => 'Movilidad conectada',
-                'descrip' => 'Una solución integrada al ecosistema de estaciones ECOVOLT para recorridos urbanos de última milla.'
-            ]
-        ]);
-
-    }
-
-@endphp
-
-
 @section('content')
 
 
@@ -115,7 +79,7 @@
 
                 Consulta las alternativas disponibles y entra
                 al detalle de cada vehículo para conocer su
-                categoría, tarifa y función dentro del ecosistema.
+                tarifa y función dentro del ecosistema.
 
             </p>
 
@@ -124,56 +88,18 @@
 
         <div class="product-grid">
 
-            @foreach($catalogo as $item)
+            @forelse($listaDeProductos as $producto)
 
                 @php
 
-                    $id = data_get(
-                        $item,
-                        'idProduct',
-                        data_get($item, 'id', 1)
-                    );
-
-                    $name = data_get(
-                        $item,
-                        'name',
-                        'Vehículo ECOVOLT'
-                    );
-
-                    $precio = data_get(
-                        $item,
-                        'precio',
-                        0
-                    );
-
-                    $categoria = data_get(
-                        $item,
-                        'categoria',
-                        'Movilidad eléctrica'
-                    );
-
-                    $descripcion = data_get(
-                        $item,
-                        'descrip',
-                        'Alternativa de movilidad eléctrica ECOVOLT.'
-                    );
-
-                    $textoProducto = strtolower(
-                        $name . ' ' . $categoria
-                    );
+                    $textoProducto = strtolower($producto->name);
 
 
                     if (
-                        str_contains($textoProducto, 'connect')
+                        str_contains($textoProducto, 'city')
                         ||
-                        str_contains($textoProducto, 'conect')
-                    ) {
-
-                        $imagen = asset(
-                            'images/flota-connect.png'
-                        );
-
-                    } elseif (
+                        str_contains($textoProducto, 'flow')
+                        ||
                         str_contains($textoProducto, 'bike')
                         ||
                         str_contains($textoProducto, 'bici')
@@ -183,11 +109,27 @@
                             'images/flota-bike.png'
                         );
 
+                        $categoria = 'Bicicleta eléctrica';
+
+                    } elseif (
+                        str_contains($textoProducto, 'connect')
+                        ||
+                        str_contains($textoProducto, 'move')
+                    ) {
+
+                        $imagen = asset(
+                            'images/flota-connect.png'
+                        );
+
+                        $categoria = 'Movilidad conectada';
+
                     } else {
 
                         $imagen = asset(
                             'images/flota-scooter.png'
                         );
+
+                        $categoria = 'Patineta eléctrica';
 
                     }
 
@@ -201,7 +143,7 @@
 
                         <img
                             src="{{ $imagen }}"
-                            alt="{{ $name }}">
+                            alt="{{ $producto->name }}">
 
                         <div class="product-tag">
                             Disponible
@@ -219,11 +161,11 @@
                             </div>
 
                             <h2 class="product-name">
-                                {{ $name }}
+                                {{ $producto->name }}
                             </h2>
 
                             <p class="product-description">
-                                {{ $descripcion }}
+                                {{ $producto->description }}
                             </p>
 
                         </div>
@@ -239,7 +181,7 @@
 
                                 <div class="price">
 
-                                    ${{ number_format((float) $precio, 0, ',', '.') }}
+                                    ${{ number_format((float) $producto->price, 0, ',', '.') }}
 
                                     <small>
                                         COP
@@ -251,7 +193,7 @@
 
 
                             <a
-                                href="{{ url('/product/' . $id) }}"
+                                href="{{ url('/product/' . $producto->id) }}"
                                 class="btn btn-dark">
 
                                 Ver vehículo →
@@ -264,7 +206,27 @@
 
                 </article>
 
-            @endforeach
+
+            @empty
+
+                <div class="empty-state">
+
+                    <div class="eyebrow">
+                        Flota ECOVOLT
+                    </div>
+
+                    <h2>
+                        No hay vehículos disponibles por el momento.
+                    </h2>
+
+                    <p>
+                        Próximamente encontrarás nuevas alternativas
+                        de movilidad eléctrica.
+                    </p>
+
+                </div>
+
+            @endforelse
 
         </div>
 
