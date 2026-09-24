@@ -64,12 +64,11 @@
 
 
             <a
-                class="nav-link nav-pill"
-                href="{{ route('products.index') }}">
-
-                Explorar flota →
-
-            </a>
+    class="nav-link nav-pill"
+    href="{{ route('products.index') }}"
+>
+    Explorar flota →
+</a>
 
         </div>
 

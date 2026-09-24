@@ -2,6 +2,7 @@
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -22,6 +23,7 @@
         rel="stylesheet"
         href="{{ asset('styles.css') }}"
     >
+
 </head>
 
 <body>
@@ -32,17 +34,48 @@
 
     @else
 
-        @include('layout.header')
+        @php
+
+            $adminArea =
+                request()->routeIs('products.manage')
+                ||
+                request()->routeIs('products.create')
+                ||
+                request()->routeIs('products.edit');
+
+        @endphp
+
+
+        @if ($adminArea)
+
+            @include('product.partials.admin-nav')
+
+        @else
+
+            @include('layout.header')
+
+        @endif
+
 
         <main>
+
             <div class="container">
+
                 @yield('content')
+
             </div>
+
         </main>
 
-        @include('layout.footer')
+
+        @unless ($adminArea)
+
+            @include('layout.footer')
+
+        @endunless
 
     @endif
+
 
     @stack('scripts')
 

@@ -17,19 +17,74 @@ Route::get('/', HomeController::class);
 
 /*
 |--------------------------------------------------------------------------
-| ECOVOLT - PRODUCTOS
-|--------------------------------------------------------------------------
-| Por ahora permanecen sin middleware.
-| La protección con auth se hará en el Paso 5 del taller.
+| ECOVOLT - CONSULTA PÚBLICA
 |--------------------------------------------------------------------------
 */
 
 Route::get(
-    '/products/manage',
-    [ProductController::class, 'manage']
-)->name('products.manage');
+    '/products',
+    [ProductController::class, 'index']
+)->name('products.index');
 
-Route::resource('products', ProductController::class);
+
+/*
+|--------------------------------------------------------------------------
+| ECOVOLT - GESTIÓN INTERNA
+|--------------------------------------------------------------------------
+| Todas estas rutas requieren iniciar sesión.
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth')->group(function () {
+
+    Route::get(
+        '/products/manage',
+        [ProductController::class, 'manage']
+    )->name('products.manage');
+
+
+    Route::get(
+        '/products/create',
+        [ProductController::class, 'create']
+    )->name('products.create');
+
+
+    Route::post(
+        '/products',
+        [ProductController::class, 'store']
+    )->name('products.store');
+
+
+    Route::get(
+        '/products/{product}/edit',
+        [ProductController::class, 'edit']
+    )->name('products.edit');
+
+
+    Route::put(
+        '/products/{product}',
+        [ProductController::class, 'update']
+    )->name('products.update');
+
+
+    Route::delete(
+        '/products/{product}',
+        [ProductController::class, 'destroy']
+    )->name('products.destroy');
+
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| ECOVOLT - DETALLE PÚBLICO
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/products/{product}',
+    [ProductController::class, 'show']
+)->name('products.show');
 
 
 /*
@@ -39,11 +94,10 @@ Route::resource('products', ProductController::class);
 */
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect()->route('products.manage');
 })
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
-
 
 /*
 |--------------------------------------------------------------------------
@@ -58,10 +112,12 @@ Route::middleware('auth')->group(function () {
         [ProfileController::class, 'edit']
     )->name('profile.edit');
 
+
     Route::patch(
         '/profile',
         [ProfileController::class, 'update']
     )->name('profile.update');
+
 
     Route::delete(
         '/profile',
@@ -70,5 +126,11 @@ Route::middleware('auth')->group(function () {
 
 });
 
+
+/*
+|--------------------------------------------------------------------------
+| BREEZE - AUTENTICACIÓN
+|--------------------------------------------------------------------------
+*/
 
 require __DIR__.'/auth.php';

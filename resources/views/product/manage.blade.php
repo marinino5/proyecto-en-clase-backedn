@@ -237,54 +237,43 @@
 
 
 
-                        <!-- ACCIONES -->
+                      <div
+    style="
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    "
+>
 
-                        <div
-                            style="
-                                display: flex;
-                                gap: 12px;
-                                flex-wrap: wrap;
-                                justify-content: flex-end;
-                            "
-                        >
-
-                            <a
-                                href="{{ route('products.show', $producto) }}"
-                                class="btn btn-outline-dark"
-                            >
-                                Ver
-                            </a>
+    <a
+        href="{{ route('products.edit', $producto) }}"
+        class="btn btn-outline-dark"
+    >
+        Editar
+    </a>
 
 
-                            <a
-                                href="{{ route('products.edit', $producto) }}"
-                                class="btn btn-outline-dark"
-                            >
-                                Editar
-                            </a>
+    <form
+        action="{{ route('products.destroy', $producto) }}"
+        method="POST"
+        style="margin: 0;"
+    >
 
+        @csrf
+        @method('DELETE')
 
-                            <form
-                                action="{{ route('products.destroy', $producto) }}"
-                                method="POST"
-                                style="margin: 0;"
-                            >
+        <button
+            type="submit"
+            class="btn btn-outline-dark"
+            onclick="return confirm('¿Seguro que deseas eliminar este vehículo? Esta acción no se puede deshacer.')"
+        >
+            Eliminar
+        </button>
 
-                                @csrf
-                                @method('DELETE')
+    </form>
 
-
-                                <button
-                                    type="submit"
-                                    class="btn btn-outline-dark"
-                                    onclick="return confirm('¿Seguro que deseas eliminar este vehículo? Esta acción no se puede deshacer.')"
-                                >
-                                    Eliminar
-                                </button>
-
-                            </form>
-
-                        </div>
+</div>
 
                     </div>
 
